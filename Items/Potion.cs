@@ -10,13 +10,11 @@ namespace Semana3___Ejercicio1.Items
     {
         public int strength;
         public int agility;
-        public int intelligence;
 
-        public Potion(string name, int strength, int agility, int intelligence) : base(name)
+        public Potion(string name, int strength, int agility) : base(name)
         {
             this.strength = strength;
             this.agility = agility;
-            this.intelligence = intelligence;
         }
     }
 }

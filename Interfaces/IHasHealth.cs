@@ -8,7 +8,7 @@ namespace Semana3___Ejercicio1
 {
     public interface IHasHealth
     {
-        public void TakeDamage(int quantity);
+        public bool TakeDamage(int quantity);
         public void IncreaseHealth(int quantity);
         public int GetHealth();
     }
