@@ -16,18 +16,18 @@ namespace Semana3___Ejercicio1
         public int intelligence;
 
         public List<Item> items;
-        public List<Weapon> weapons;
+        public Weapon weapon;
 
-        public Player(int maxHealth, int strength, int agility, int intelligence)
+        public Player(int maxHealth, int strength, int agility, int intelligence, Weapon weapon)
         {
             this.maxHealth = maxHealth;
             this.strength = strength;
             this.agility = agility;
             this.intelligence = intelligence;
+            this.weapon = weapon;
 
             health = maxHealth;
             items = new List<Item>();
-            weapons = new List<Weapon>();
         }
 
         public int GetHealth() => health;

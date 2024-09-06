@@ -8,8 +8,10 @@ namespace Semana3___Ejercicio1
 {
     public abstract class Item
     {
-        public int strength;
-        public int agility;
-        public int intelligence;
+        public string name;
+        public Item(string name)
+        {
+            this.name = name;
+        }
     }
 }

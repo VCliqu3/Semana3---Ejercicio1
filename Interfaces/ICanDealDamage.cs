@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public enum ItemType
+    public interface ICanDealDamage
     {
-        Earing,
-        Necklace,
-        Bracelet,
-        Ring
+        public int GetDamage();
+        public void DealDamage(IHasHealth iHasHealth);
     }
-
 }
