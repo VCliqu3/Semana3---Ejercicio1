@@ -15,7 +15,7 @@ namespace Semana3___Ejercicio1
         private const int ENEMY_MAX_AGILITY = 5;
         private const int ENEMY_MAX_RESISTANCE = 5;
 
-        public Enemy(int maxHealth, int strength, int resistance, int agility, Weapon weapon, Item item) : base(maxHealth, strength, resistance, agility, weapon)
+        public Enemy(string name, int maxHealth, int strength, int resistance, int agility, Weapon weapon, Item item) : base(name, maxHealth, strength, resistance, agility, weapon)
         {
             this.item = item;
         }
@@ -24,5 +24,7 @@ namespace Semana3___Ejercicio1
         public override int GetMaxStrength() => ENEMY_MAX_STRENGTH;
         public override int GetMaxAgility() => ENEMY_MAX_AGILITY;
         public override int GetMaxResistance() => ENEMY_MAX_RESISTANCE;
+
+        public bool HasItem() => item != null;
     }
 }

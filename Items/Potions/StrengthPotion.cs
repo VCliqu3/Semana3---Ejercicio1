@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public class StrengthPotion : Potion
+    public class StrengthPotion : Potion, IHasStrength
     {
         public int strength;
 
@@ -23,5 +23,12 @@ namespace Semana3___Ejercicio1
         {
             entity.IncreaseStrength(strength);
         }
+
+        public void SetStrength(int strength) => this.strength = strength;
+
+        public int GetStrength() => strength;
+
+        public int GetMaxStrength() => MAX_STRENGTH;
+
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Semana3___Ejercicio1.Items
+namespace Semana3___Ejercicio1
 {
-    public class ResistancePotion : Potion
+    public class ResistancePotion : Potion, IHasResistance
     {
         public int resistance;
 
@@ -22,5 +22,9 @@ namespace Semana3___Ejercicio1.Items
         {
             entity.IncreaseResistance(resistance);
         }
+
+        public void SetResistance(int resistance) => this.resistance = resistance;
+        public int GetResistance() => resistance;
+        public int GetMaxResistance() => MAX_RESISTANCE;
     }
 }

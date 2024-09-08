@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public abstract class Entity : IHasHealth
+    public abstract class Entity : IHealthBeing, IStrengthBeing, IAgilityBeing, IResistanceBeing
     {
-        public int name;
-        private int health;
+        public string name;
+        public int health;
 
         public int strength;
         public int resistance;
@@ -19,8 +19,9 @@ namespace Semana3___Ejercicio1
 
         private const int _50PERCENT_EVASION_AGILITY = 5;
 
-        public Entity(int health, int strength, int agility, int resistance, Weapon weapon)
+        public Entity(string name, int health, int strength, int agility, int resistance, Weapon weapon)
         {
+            this.name = name;
             this.health = health;
             this.strength = strength;
             this.agility = agility;
@@ -29,37 +30,13 @@ namespace Semana3___Ejercicio1
             this.weapon = weapon;
         }
 
-        public bool IsAlive() => health > 0;
-
-        public abstract int GetMaxHealth();
-        public abstract int GetMaxStrength();
-        public abstract int GetMaxAgility();
-        public abstract int GetMaxResistance();
-
+        public void SetHealth(int health) => this.health = health;
         public int GetHealth() => health;
-        public int GetStrength() => strength;
-        public int GetAgility() => agility;
-        public int GetResistance() => resistance;
-
+        public abstract int GetMaxHealth();
         public void IncreaseHealth(int quantity)
         {
             health = health + quantity > GetMaxHealth() ? GetMaxHealth() : health + quantity;
         }
-
-        public void IncreaseStrength(int quantity)
-        {
-            strength = strength + quantity > GetMaxStrength() ? GetMaxStrength() : strength + quantity;
-        }
-
-        public void IncreaseAgility(int quantity)
-        {
-            agility = agility + quantity > GetMaxAgility() ? GetMaxAgility() : agility + quantity;
-        }
-        public void IncreaseResistance(int quantity)
-        {
-            resistance = resistance + quantity > GetMaxResistance() ? GetMaxResistance() : resistance + quantity;
-        }
-
         public bool TakeDamage(int quantity) //True si recibe ataque, false si esquiva
         {
             if (CheckEvasion()) return false; 
@@ -67,6 +44,35 @@ namespace Semana3___Ejercicio1
             int damageToTake = quantity - resistance < 0 ? 0 : quantity - resistance;
             health = health - damageToTake < 0 ? 0 : health - damageToTake;
             return true;
+        }
+
+        public bool IsAlive() => health > 0;
+
+        public void SetStrength(int strength) => this.strength = strength;
+        public int GetStrength() => strength;
+        public abstract int GetMaxStrength();
+
+        public void IncreaseStrength(int quantity)
+        {
+            strength = strength + quantity > GetMaxStrength() ? GetMaxStrength() : strength + quantity;
+        }
+
+        public void SetAgility(int agility) => this.agility = agility;
+
+        public int GetAgility() => agility;
+        public abstract int GetMaxAgility();
+        public void IncreaseAgility(int quantity)
+        {
+            agility = agility + quantity > GetMaxAgility() ? GetMaxAgility() : agility + quantity;
+        }
+
+        public void SetResistance(int resistance) => this.resistance = resistance;
+
+        public int GetResistance() => resistance;
+        public abstract int GetMaxResistance();
+        public void IncreaseResistance(int quantity)
+        {
+            resistance = resistance + quantity > GetMaxResistance() ? GetMaxResistance() : resistance + quantity;
         }
 
         public bool CheckEvasion()

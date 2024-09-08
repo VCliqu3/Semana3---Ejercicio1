@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public class AgilityPotion : Potion
+    public class AgilityPotion : Potion, IHasAgility
     {
         public int agility;
 
@@ -23,5 +23,9 @@ namespace Semana3___Ejercicio1
         {
             entity.IncreaseAgility(agility);
         }
+
+        public void SetAgility(int agility) => this.agility = agility;
+        public int GetAgility() => agility;
+        public int GetMaxAgility() => MAX_AGILITY;
     }
 }

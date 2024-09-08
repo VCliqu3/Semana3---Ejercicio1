@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public class Grenade: Item
+    public class Grenade: Item, IDamageDealer
     {
         public int damage;
 
@@ -19,9 +19,14 @@ namespace Semana3___Ejercicio1
 
         public override int GetMaxStat() => MAX_DAMAGE;
 
-        public void ExplodeOnEntity(Entity entity)
+        public void SetDamage(int damage) => this.damage = damage;
+        public int GetDamage() => damage;
+        public int GetMaxDamage() => MAX_DAMAGE;
+
+
+        public void DealDamage(IHealthBeing iHasHealth)
         {
-            entity.TakeDamage(damage);
+            iHasHealth.TakeDamage(damage); //Daño de granada NO influenciada por la fuerza de la entidad portadora
         }
     }
 }

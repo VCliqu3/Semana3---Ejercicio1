@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public class Player : Entity, IHasHealth
+    public class Player : Entity, IHealthBeing
     {
         public List<Item> items;
 
@@ -15,7 +15,7 @@ namespace Semana3___Ejercicio1
         private const int PLAYER_MAX_AGILITY = 10;
         private const int PLAYER_MAX_RESISTANCE = 10;
 
-        public Player(int maxHealth, int strength, int resistance, int agility, Weapon weapon, Item item) : base(maxHealth, strength, resistance, agility, weapon)
+        public Player(string name, int maxHealth, int strength, int resistance, int agility, Weapon weapon, Item item) : base(name, maxHealth, strength, resistance, agility, weapon)
         {
             items = new List<Item>();
         }

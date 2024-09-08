@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public interface ICanDealDamage
+    public interface IAgilityBeing : IHasAgility
     {
-        public int GetDamage();
-        public void DealDamage(IHasHealth iHasHealth);
+        public void IncreaseAgility(int agility);
+        public bool CheckEvasion();
     }
 }

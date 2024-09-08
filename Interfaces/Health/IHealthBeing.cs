@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public interface IHasHealth
+    public interface IHealthBeing:IHasHealth
     {
         public bool TakeDamage(int quantity);
         public void IncreaseHealth(int quantity);
-        public int GetHealth();
         public bool IsAlive();
     }
 }

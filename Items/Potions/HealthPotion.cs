@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Semana3___Ejercicio1.Items
+namespace Semana3___Ejercicio1
 {
-    public class HealthPotion : Potion
+    public class HealthPotion : Potion, IHasHealth
     {
         public int health;
 
@@ -23,5 +23,10 @@ namespace Semana3___Ejercicio1.Items
         {
             entity.IncreaseHealth(health);
         }
+
+        public void SetHealth(int health) => this.health = health;
+        public int GetHealth() => health;
+        public int GetMaxHealth() => MAX_HEALTH;
+
     }
 }

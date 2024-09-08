@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public abstract class Potion : Item
+    public interface IHasStrength
     {
-        public Potion(string name) : base(name) { }
-
-        public abstract void ApplyPotion(Entity entity);
-
+        public void SetStrength(int srength);
+        public int GetStrength();
+        public int GetMaxStrength();
     }
 }
