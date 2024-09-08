@@ -18,5 +18,10 @@ namespace Semana3___Ejercicio1
         }
 
         public override int GetMaxStat() => MAX_DAMAGE;
+
+        public void ExplodeOnEntity(Entity entity)
+        {
+            entity.TakeDamage(damage);
+        }
     }
 }

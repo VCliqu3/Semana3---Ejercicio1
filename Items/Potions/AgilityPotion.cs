@@ -18,5 +18,10 @@ namespace Semana3___Ejercicio1
         }
 
         public override int GetMaxStat() => MAX_AGILITY;
+
+        public override void ApplyPotion(Entity entity)
+        {
+            entity.IncreaseAgility(agility);
+        }
     }
 }

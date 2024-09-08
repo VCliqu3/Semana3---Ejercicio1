@@ -18,5 +18,10 @@ namespace Semana3___Ejercicio1
         }
 
         public override int GetMaxStat() => MAX_STRENGTH;
+
+        public override void ApplyPotion(Entity entity)
+        {
+            entity.IncreaseStrength(strength);
+        }
     }
 }

@@ -18,5 +18,9 @@ namespace Semana3___Ejercicio1.Items
         }
 
         public override int GetMaxStat() => MAX_RESISTANCE;
+        public override void ApplyPotion(Entity entity)
+        {
+            entity.IncreaseResistance(resistance);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Semana3___Ejercicio1
         public bool TakeDamage(int quantity);
         public void IncreaseHealth(int quantity);
         public int GetHealth();
+        public bool IsAlive();
     }
 }

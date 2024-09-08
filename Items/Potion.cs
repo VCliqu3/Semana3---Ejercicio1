@@ -11,6 +11,7 @@ namespace Semana3___Ejercicio1
 
         public Potion(string name) : base(name) { }
 
+        public abstract void ApplyPotion(Entity entity);
 
     }
 }
