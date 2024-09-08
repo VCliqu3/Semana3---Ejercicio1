@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public class Entity : IHasHealth
+    public abstract class Entity : IHasHealth
     {
         public int name;
         public int maxHealth;
@@ -60,5 +60,10 @@ namespace Semana3___Ejercicio1
             if (evasionFloat >= threshold) return true; //Si evasionFloat es mayor a threshold, la entidad esquiva
             return false;
         }
+
+        public abstract int GetMaxHealth();
+        public abstract int GetMaxStrength();
+        public abstract int GetMaxAgility();
+        public abstract int GetMaxResistance();
     }
 }

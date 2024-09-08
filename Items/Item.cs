@@ -13,5 +13,7 @@ namespace Semana3___Ejercicio1
         {
             this.name = name;
         }
+
+        public abstract int GetMaxStat();
     }
 }
