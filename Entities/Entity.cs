@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Semana3___Ejercicio1
 {
-    public abstract class Entity : IHealthBeing, IStrengthBeing, IAgilityBeing, IResistanceBeing
+    public abstract class Entity : IHealthBeing, IStrengthBeing, IAgilityBeing, IResistanceBeing, IDamageDealer
     {
         public string name;
         public int health;
@@ -87,6 +87,19 @@ namespace Semana3___Ejercicio1
             return false;
         }
 
+        public void SetDamage(int damage) => strength = damage;
+        public int GetDamage() => strength;
+        public int GetMaxDamage() => GetMaxStrength();
+        public void DealDamage(IHealthBeing iHasHealth)
+        {
+            int damageToDeal;
 
+            if (HasWeapon()) damageToDeal = strength + weapon.damage; //Daño del arma influenciado por la fuerza de la entidad portadora
+            else damageToDeal = strength;
+
+            iHasHealth.TakeDamage(damageToDeal);
+        }
+
+        public bool HasWeapon() => weapon != null;
     }
 }

@@ -84,6 +84,10 @@ namespace Semana3___Ejercicio1
                     {
                         Console.WriteLine($"Sólo puedes ingresar un máximo de {maxStatPoints} puntos, ingresa una cantidad menor:");
                     }
+                    else if (desiredPoints < 0)
+                    {
+                        Console.WriteLine($"Ingresa una cantidad positiva:");
+                    }
                     else
                     {
                         insertedPoints = desiredPoints;
@@ -152,7 +156,7 @@ namespace Semana3___Ejercicio1
         public void SetItem(Enemy enemy)
         {
             Console.WriteLine("\nSelecciona el item que portará");
-            Console.WriteLine("1.- Granada");
+            Console.WriteLine("1.- Explosivo");
             Console.WriteLine("2.- Pocion de Vida");
             Console.WriteLine("3.- Pocion de Fuerza");
             Console.WriteLine("4.- Pocion de Agilidad");
@@ -166,7 +170,7 @@ namespace Semana3___Ejercicio1
             switch (itemOption)
             {
                 case 1:
-                    item = CreateGrenade();
+                    item = CreateExplosive();
                     break;
                 case 2:
                     item = CreateHealthPotion();
@@ -189,16 +193,16 @@ namespace Semana3___Ejercicio1
             enemy.item = item;
         }
 
-        public Grenade CreateGrenade()
+        public Explosive CreateExplosive()
         {
             Console.WriteLine("\nInserta el nombre de la granada");
-            string grenadeName = Console.ReadLine();
+            string explosiveName = Console.ReadLine();
 
-            Grenade grenade = new Grenade(grenadeName, 0);
+            Explosive explosive = new Explosive(explosiveName, 0);
 
-            SetDamagePoints(grenade);
+            SetDamagePoints(explosive);
 
-            return grenade;
+            return explosive;
         }
 
         public HealthPotion CreateHealthPotion()
