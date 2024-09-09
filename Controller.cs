@@ -15,6 +15,8 @@ namespace Semana3___Ejercicio1
 
         private Stage currentStage;
 
+        private bool gameEnded = false;
+
         public void Execute()
         {
             Console.WriteLine("Ahora te encuentras como Dungeon Master");
@@ -23,17 +25,35 @@ namespace Semana3___Ejercicio1
             CreateStagesLogic();
             CreatePlayerLogic();
 
-            SeeStagesLogic();
-
-            bool gameEnded = false;
-            currentStage = stageList[0];
+            SeeStagesLogic();         
 
             while (!gameEnded)
             {
                 PlayerTurnLogic();
-                EnemyTurnLogic();
 
-                gameEnded = true;
+                if (CheckStageCompleated(currentStage))
+                {
+                    if (CurrentStageIsLastStage())
+                    {
+                        Console.WriteLine("\nHas completado el juego!");
+                        gameEnded = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\nHas completado el Stage {currentStage.number}");
+                        GoToNextStage();
+                    }
+                }
+                else
+                {
+                    EnemyTurnLogic();
+
+                    if (CheckPlayerDefeated())
+                    {
+                        Console.WriteLine("\nHas sido derrotado!");
+                        gameEnded = true;
+                    }
+                }
             }
         }
 
@@ -384,7 +404,7 @@ namespace Semana3___Ejercicio1
 
         public void PlayerTurnLogic()
         {
-
+            
         }
 
         public void EnemyTurnLogic()
@@ -392,7 +412,53 @@ namespace Semana3___Ejercicio1
 
         }
 
+        public Enemy ChooseRandomAliveEnemyFromList(List<Enemy> enemies)
+        {
+            List<Enemy> aliveEnemies = new List<Enemy>();
+
+            foreach(Enemy enemy in enemies)
+            {
+                if (enemy.IsAlive()) aliveEnemies.Add(enemy);
+            }
+
+            if (aliveEnemies.Count == 0) return null;
+
+            Random random = new Random();
+            int randomIndex = random.Next(aliveEnemies.Count);
+
+            return aliveEnemies[randomIndex];
+        }
+
+        public void GoToNextStage()
+        {
+            int nextStageIndex = GetCurrentStageIndexInList()+1;
+            Stage nextStage = stageList[nextStageIndex];
+
+            Console.WriteLine($"\nComienza el Stage {nextStage.number}");
+            currentStage = nextStage;
+        }
         public bool CurrentStageIsLastStage() => currentStage == stageList[^1];
+
+        public bool CheckStageCompleated(Stage stage)
+        {
+            foreach(Enemy enemy in stage.enemies)
+            {
+                if (enemy.IsAlive()) return false;
+            }
+
+            return true;
+        }
+
+        public int GetCurrentStageIndexInList()
+        {
+            for (int i =0; i<stageList.Count; i++)
+            {
+                if (currentStage == stageList[i]) return i;
+            }
+
+            return 0;
+        }
+        public bool CheckPlayerDefeated() => !player.IsAlive();
 
         #region OptionHandlers
         private int ChooseNumberOption(int maxOptionNumber)
