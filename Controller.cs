@@ -11,6 +11,7 @@ namespace Semana3___Ejercicio1
 
         private Player player;
         private List<Enemy> enemiesList = new List<Enemy>();
+        private List<Stage> stageList = new List<Stage>();
 
 
         public void Execute()
@@ -22,10 +23,14 @@ namespace Semana3___Ejercicio1
                 Console.WriteLine("Ahora te encuentras como Dungeon Master");
 
                 CreateEnemiesLogic();
+                CreateStagesLogic();
+                CreatePlayerLogic();
+
                 gameEnded = true;
             }
         }
-              
+
+        #region CreateEnemies
         public void CreateEnemiesLogic()
         {
             Console.WriteLine("\nCreación de enemigos:");
@@ -43,7 +48,6 @@ namespace Semana3___Ejercicio1
 
             }
         }
-
         public void CreateSingleEnemyLogic()
         {
             Console.WriteLine("\nInserta el nombre del nuevo enemigo");
@@ -60,13 +64,14 @@ namespace Semana3___Ejercicio1
 
             enemiesList.Add(enemy);
         }
+        #endregion
 
+        #region SetStatPoints
         public void SetHealthPoints(IHasHealth iHasHealth) => iHasHealth.SetHealth(InsertStatPoints("Vida", iHasHealth.GetMaxHealth()));
         public void SetStrengthPoints(IHasStrength iHasStrength) => iHasStrength.SetStrength(InsertStatPoints("Fuerza", iHasStrength.GetMaxStrength()));
         public void SetAgilityPoints(IHasAgility iHasAgility) => iHasAgility.SetAgility(InsertStatPoints("Agilidad", iHasAgility.GetMaxAgility()));
         public void SetResistancePoints(IHasResistance iHasResistance) => iHasResistance.SetResistance(InsertStatPoints("Resistencia", iHasResistance.GetMaxResistance()));
         public void SetDamagePoints(IHasDamage iHasDamage) => iHasDamage.SetDamage(InsertStatPoints("Daño", iHasDamage.GetMaxDamage())); 
-
         public int InsertStatPoints(string statName, int maxStatPoints)
         {
             bool validPoints = false;
@@ -102,7 +107,9 @@ namespace Semana3___Ejercicio1
 
             return insertedPoints;
         }
+        #endregion
 
+        #region CreateWeapon
         public void SetWeapon(Entity entity)
         {
             Console.WriteLine("\nSelecciona el tipo de arma que portará");
@@ -153,6 +160,9 @@ namespace Semana3___Ejercicio1
             return bow;
         }
 
+        #endregion
+
+        #region CreateItem
         public void SetItem(Enemy enemy)
         {
             Console.WriteLine("\nSelecciona el item que portará");
@@ -252,7 +262,95 @@ namespace Semana3___Ejercicio1
 
             return resistancePotion;
         }
+        #endregion
 
+        #region CreateStages
+        public void CreateStagesLogic()
+        {
+            Console.WriteLine("\nCreación de stages:");
+
+            bool creatingStages = true;
+            int stageNumber = 1;
+            while (creatingStages)
+            {
+                CreateSingleStageLogic(stageNumber);
+
+                Console.WriteLine("\nDeseas crear otro stage?");
+                bool answer = ChooseYNOption();
+
+                if (!answer) creatingStages = false;
+                else stageNumber++;
+            }
+        }
+
+        public void CreateSingleStageLogic(int stageNumber)
+        {
+            Console.WriteLine($"\nStage {stageNumber}:");
+
+            Stage stage = new Stage(stageNumber, new List<Enemy>());
+            AddEnemiesToStage(stage);
+            stageList.Add(stage);
+
+        }
+
+        public void AddEnemiesToStage(Stage stage)
+        {
+            bool addingEnemies = true;
+
+            while (addingEnemies)
+            {
+                AddSingleEnemyToStage(stage);
+
+                Console.WriteLine("\nDeseas agregar otro enemigo?");
+                bool answer = ChooseYNOption();
+
+                if (!answer) addingEnemies = false;
+            }
+        }
+
+        public void AddSingleEnemyToStage(Stage stage)
+        {
+            Console.WriteLine($"\nSelecciona un enemigo a agregar al Stage {stage.number}:");
+
+            int enemyNumber = 1;
+
+            foreach (Enemy enemy in enemiesList)
+            {
+                Console.WriteLine($"{enemyNumber}.- {enemy.name}");
+                enemyNumber++;
+            }
+
+            int enemyOption = ChooseNumberOption(enemiesList.Count);
+            Enemy enemyToAdd = CloneEnemy(enemiesList[enemyOption - 1]);
+
+            stage.enemies.Add(enemyToAdd);
+        }
+        public Enemy CloneEnemy(Enemy enemy)
+        {
+            return new Enemy(enemy.name, enemy.health, enemy.strength, enemy.agility, enemy.resistance, enemy.weapon, enemy.item);
+        }
+        #endregion
+
+
+
+        public void CreatePlayerLogic()
+        {
+            Console.WriteLine("\nCreación de jugador:");
+
+            Console.WriteLine("\nInserta el nombre del jugador");
+            string playerName = Console.ReadLine();
+
+            Player newPlayer = new Player(playerName, 0, 0, 0, 0, null);
+
+            SetHealthPoints(newPlayer);
+            SetStrengthPoints(newPlayer);
+            SetAgilityPoints(newPlayer);
+            SetResistancePoints(newPlayer);
+            SetWeapon(newPlayer);
+
+            player = newPlayer;
+        }
+        #region OptionHandlers
         private int ChooseNumberOption(int maxOptionNumber)
         {
             bool validOption = false;
@@ -282,7 +380,6 @@ namespace Semana3___Ejercicio1
 
             return option;
         }
-
         private bool ChooseYNOption()
         {
             Console.WriteLine("(Y/N):");
@@ -314,6 +411,7 @@ namespace Semana3___Ejercicio1
 
             return desiredOption;
         }
+        #endregion
     }
 }
 

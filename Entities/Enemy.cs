@@ -15,7 +15,7 @@ namespace Semana3___Ejercicio1
         private const int ENEMY_MAX_AGILITY = 5;
         private const int ENEMY_MAX_RESISTANCE = 5;
 
-        public Enemy(string name, int maxHealth, int strength, int resistance, int agility, Weapon weapon, Item item) : base(name, maxHealth, strength, resistance, agility, weapon)
+        public Enemy(string name, int maxHealth, int strength, int agility, int resistance, Weapon weapon, Item item) : base(name, maxHealth, strength, agility, resistance, weapon)
         {
             this.item = item;
         }
