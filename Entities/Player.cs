@@ -24,5 +24,7 @@ namespace Semana3___Ejercicio1
         public override int GetMaxStrength() => PLAYER_MAX_STRENGTH;
         public override int GetMaxAgility() => PLAYER_MAX_AGILITY;
         public override int GetMaxResistance() => PLAYER_MAX_RESISTANCE;
+
+        public bool HasItems() => items.Count > 0;
     }
 }

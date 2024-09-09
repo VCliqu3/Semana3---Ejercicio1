@@ -8,7 +8,6 @@ namespace Semana3___Ejercicio1
 {
     public class Controller
     {
-
         private Player player;
         private List<Enemy> enemiesList = new List<Enemy>();
         private List<Stage> stageList = new List<Stage>();
@@ -25,7 +24,11 @@ namespace Semana3___Ejercicio1
             CreateStagesLogic();
             CreatePlayerLogic();
 
-            SeeStagesLogic();         
+            SeeStagesLogic();
+
+            Console.WriteLine("\nAhora te encuentras como Jugador");
+
+            GoToNextStage();
 
             while (!gameEnded)
             {
@@ -363,21 +366,20 @@ namespace Semana3___Ejercicio1
         {
             Console.WriteLine("\nSe tienen los siguientes stages:");
 
-            int stageIndex = 1;
+            int stageIndex = 0;
 
             foreach (Stage stage in stageList)
             {
+                stageIndex++;
                 Console.WriteLine($"\nStage {stageIndex}:");
 
-                int enemyIndex = 1;
+                int enemyIndex = 0;
 
                 foreach (Enemy enemy in stage.enemies)
                 {
-                    Console.WriteLine($"{enemyIndex}.- {enemy.name}");
                     enemyIndex++;
+                    Console.WriteLine($"{enemyIndex}.- {enemy.name}");
                 }
-
-                stageIndex++;
             }
         }
         #endregion
@@ -404,12 +406,284 @@ namespace Semana3___Ejercicio1
 
         public void PlayerTurnLogic()
         {
-            
+            Console.WriteLine("\nSelecciona la accion a realizar");
+            Console.WriteLine("1.- Atacar");
+            Console.WriteLine("2.- Usar un item");
+
+            int actionOption = ChooseNumberOption(2);
+
+            switch (actionOption)
+            {
+                case 1:
+                default:
+                    PlayerAttackLogic();
+                    break;
+                case 2:
+                    PlayerUseItemLogic();
+                    break;
+            }
+        }
+
+        public void PlayerAttackLogic()
+        {
+            Console.WriteLine("\nSelecciona un enemigo a atacar");
+
+            Enemy selectedEnemy = SelectEnemyFromCurrentStage();
+
+            if (!selectedEnemy.IsAlive())
+            {
+                Console.WriteLine($"\nEl enemigo {selectedEnemy.name} ya está muerto, selecciona otro enemigo");
+                PlayerAttackLogic();
+            }
+            else
+            {
+                int previousEnemyHealth = selectedEnemy.health;
+                bool hasDealtDamage = player.DealDamage(selectedEnemy);
+
+                if (!hasDealtDamage)
+                {
+                    Console.WriteLine($"\nEl enemigo {selectedEnemy.name} ha esquivado el ataque");
+                    return;
+                }
+
+                int currentEnemyHealth = selectedEnemy.health;
+
+                int damageDealt = previousEnemyHealth - currentEnemyHealth;
+
+                if (damageDealt <= 0)
+                {
+                    Console.WriteLine($"\nEl enemigo {selectedEnemy.name} mitiga todo el daño del ataque mediante su resistencia");
+                }
+
+                Console.WriteLine($"\nEl enemigo {selectedEnemy.name} recibe {damageDealt} puntos de daño");
+                if (!selectedEnemy.IsAlive()) Console.WriteLine($"El enemigo {selectedEnemy.name} ha muerto!");
+                if (selectedEnemy.HasItem()) AddItemToPlayer(selectedEnemy.item);
+            }
+        }
+
+        public void PlayerUseItemLogic()
+        {
+            if (!player.HasItems())
+            {
+                Console.WriteLine($"\nEl jugador no cuenta con items a usar");
+                return;
+            }
+
+            Console.WriteLine("\nSelecciona un item a usar:");
+
+            int itemIndex = 0;
+
+            foreach (Item item in player.items)
+            {
+                itemIndex++;
+                Console.WriteLine($"{itemIndex}.- {item.name}");
+            }
+
+            int itemOption = ChooseNumberOption(player.items.Count);
+            Item selectedItem = player.items[itemOption - 1];
+
+            if(selectedItem is Explosive)
+            {
+                UseExplosive(selectedItem as Explosive);
+            }
+            if(selectedItem is Potion)
+            {
+                UsePotion(selectedItem as Potion);
+            }
+        }
+
+        public void UseExplosive(Explosive explosive)
+        {
+            Console.WriteLine("\nSelecciona un enemigo a explotar");
+
+            Enemy selectedEnemy = SelectEnemyFromCurrentStage();
+
+            if (!selectedEnemy.IsAlive())
+            {
+                Console.WriteLine($"\nEl enemigo {selectedEnemy.name} ya está muerto, selecciona otro enemigo");
+                UseExplosive(explosive);
+            }
+            else
+            {
+                int previousEnemyHealth = selectedEnemy.health;
+                bool hasDealtDamage = explosive.DealDamage(selectedEnemy);
+
+                if (!hasDealtDamage)
+                {
+                    Console.WriteLine($"\nEl enemigo {selectedEnemy.name} ha esquivado el explosivo");
+                    return;
+                }
+
+                int currentEnemyHealth = selectedEnemy.health;
+
+                int damageDealt = previousEnemyHealth - currentEnemyHealth;
+
+                if (damageDealt <= 0)
+                {
+                    Console.WriteLine($"\nEl enemigo {selectedEnemy.name} mitiga todo el daño del explosivo mediante su resistencia");
+                }
+                else
+                {
+                    Console.WriteLine($"\nEl enemigo {selectedEnemy.name} recibe {damageDealt} puntos de daño");
+
+                    if (!selectedEnemy.IsAlive())
+                    {
+                        Console.WriteLine($"El enemigo {selectedEnemy.name} ha muerto!");
+                        if (selectedEnemy.HasItem()) AddItemToPlayer(selectedEnemy.item);
+                    }
+                }
+                
+                player.items.Remove(explosive);
+            }
+        }
+
+        public void UsePotion(Potion potion)
+        {
+            if(potion is HealthPotion)
+            {
+                UseHealthPotion(potion as HealthPotion);
+            }
+
+            if (potion is StrengthPotion)
+            {
+                UseStrengthPotion(potion as StrengthPotion);
+            }
+
+            if (potion is AgilityPotion)
+            {
+                UseAgilityPotion(potion as AgilityPotion);
+            }
+
+            if (potion is ResistancePotion)
+            {
+                UseResistancePotion(potion as ResistancePotion);
+            }
+        }
+
+        public void UseHealthPotion(HealthPotion healthPotion)
+        {
+            if(player.health == player.GetMaxHealth())
+            {
+                Console.WriteLine($"\nEl jugador ya tiene la vida maxima ({player.GetMaxHealth()}");
+                return;
+            }
+
+            int previousHealth = player.health;
+            healthPotion.ApplyPotion(player);
+            int currentHealth = player.health;
+
+            int healthAdded = currentHealth - previousHealth;
+
+            Console.WriteLine($"\nLa pocion {healthPotion.name} restauró {healthAdded} puntos de vida");
+            player.items.Remove(healthPotion);
+        }
+
+        public void UseStrengthPotion(StrengthPotion strengthPotion)
+        {
+            if (player.strength == player.GetMaxStrength())
+            {
+                Console.WriteLine($"\nEl jugador ya tiene la fuerza maxima ({player.GetMaxStrength()}");
+                return;
+            }
+
+            int previousStrength = player.strength;
+            strengthPotion.ApplyPotion(player);
+            int currentStrength = player.strength;
+
+            int strengthAdded = currentStrength - previousStrength;
+
+            Console.WriteLine($"\nLa pocion {strengthPotion.name} aumentó {strengthAdded} puntos de fuerza");
+            player.items.Remove(strengthPotion);
+        }
+
+        public void UseAgilityPotion(AgilityPotion agilityPotion)
+        {
+            if (player.agility == player.GetMaxAgility())
+            {
+                Console.WriteLine($"\nEl jugador ya tiene la agilidad maxima ({player.GetMaxAgility()}");
+                return;
+            }
+
+            int previousAgility = player.agility;
+            agilityPotion.ApplyPotion(player);
+            int currentAgility = player.agility;
+
+            int agilityAdded = currentAgility - previousAgility;
+
+            Console.WriteLine($"\nLa pocion {agilityPotion.name} aumentó {agilityAdded} puntos de agilidad");
+            player.items.Remove(agilityPotion);
+        }
+
+        public void UseResistancePotion(ResistancePotion resistancePotion)
+        {
+            if (player.resistance == player.GetMaxResistance())
+            {
+                Console.WriteLine($"\nEl jugador ya tiene la resistencia maxima ({player.GetMaxResistance()}");
+                return;
+            }
+
+            int previousResistance = player.resistance;
+            resistancePotion.ApplyPotion(player);
+            int currentResistance = player.resistance;
+
+            int agilityAdded = currentResistance - previousResistance;
+
+            Console.WriteLine($"\nLa pocion {resistancePotion.name} aumentó {agilityAdded} puntos de resistencia");
+            player.items.Remove(resistancePotion);
         }
 
         public void EnemyTurnLogic()
         {
+            Enemy attackerEnemy = ChooseRandomAliveEnemyFromList(currentStage.enemies);
 
+            if(attackerEnemy == null)
+            {
+                Console.WriteLine("Todos los enemigos del stage estan muertos!");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"\nEl enemigo {attackerEnemy.name} ataca al jugador");
+
+                int previousPlayerHealth = player.health;
+                bool hasDealtDamage = attackerEnemy.DealDamage(player);
+
+                if (!hasDealtDamage)
+                {
+                    Console.WriteLine($"\nEl jugador ha esquivado el ataque");
+                    return;
+                }
+
+                int currentPlayerHealth = player.health;
+
+                int damageDealt = previousPlayerHealth - currentPlayerHealth;
+
+                if(damageDealt <= 0)
+                {
+                    Console.WriteLine($"\nEl jugador mitiga todo el daño del ataque mediante su resistencia");
+                }
+
+                Console.WriteLine($"\nEl jugador recibe {damageDealt} puntos de daño");
+                Console.WriteLine($"El jugador ahora tiene {currentPlayerHealth} puntos de vida.");
+            }
+        }
+
+        public Enemy SelectEnemyFromCurrentStage()
+        {
+            int enemyIndex = 0;
+
+            foreach (Enemy enemy in currentStage.enemies)
+            {
+                enemyIndex++;
+                if (enemy.IsAlive()) Console.WriteLine($"{enemyIndex}.- {enemy.name} - {enemy.health}");
+                else Console.WriteLine($"{enemyIndex}.- {enemy.name} - Muerto");
+            }
+
+            int selectedEnemyIndex = ChooseNumberOption(enemyIndex);
+
+            Enemy selectedEnemy = currentStage.enemies[selectedEnemyIndex - 1];
+
+            return selectedEnemy;
         }
 
         public Enemy ChooseRandomAliveEnemyFromList(List<Enemy> enemies)
@@ -431,8 +705,17 @@ namespace Semana3___Ejercicio1
 
         public void GoToNextStage()
         {
-            int nextStageIndex = GetCurrentStageIndexInList()+1;
-            Stage nextStage = stageList[nextStageIndex];
+            Stage nextStage;
+
+            if (currentStage != null)
+            {
+                int nextStageIndex = GetCurrentStageIndexInList() + 1;
+                nextStage = stageList[nextStageIndex];
+            }
+            else
+            {
+                nextStage = stageList[0];
+            }
 
             Console.WriteLine($"\nComienza el Stage {nextStage.number}");
             currentStage = nextStage;
@@ -459,6 +742,12 @@ namespace Semana3___Ejercicio1
             return 0;
         }
         public bool CheckPlayerDefeated() => !player.IsAlive();
+
+        public void AddItemToPlayer(Item item)
+        {
+            Console.WriteLine($"\nHas adquirido {item.name}");
+            player.items.Add(item);
+        }
 
         #region OptionHandlers
         private int ChooseNumberOption(int maxOptionNumber)

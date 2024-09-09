@@ -24,9 +24,9 @@ namespace Semana3___Ejercicio1
         public int GetMaxDamage() => MAX_DAMAGE;
 
 
-        public void DealDamage(IHealthBeing iHasHealth)
+        public bool DealDamage(IHealthBeing iHasHealth)
         {
-            iHasHealth.TakeDamage(damage); //Daño de granada NO influenciada por la fuerza de la entidad portadora
+            return iHasHealth.TakeDamage(damage); //Daño de granada NO influenciada por la fuerza de la entidad portadora
         }
     }
 }

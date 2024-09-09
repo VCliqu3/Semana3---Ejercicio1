@@ -90,14 +90,14 @@ namespace Semana3___Ejercicio1
         public void SetDamage(int damage) => strength = damage;
         public int GetDamage() => strength;
         public int GetMaxDamage() => GetMaxStrength();
-        public void DealDamage(IHealthBeing iHasHealth)
+        public bool DealDamage(IHealthBeing iHasHealth)
         {
             int damageToDeal;
 
             if (HasWeapon()) damageToDeal = strength + weapon.damage; //Daño del arma influenciado por la fuerza de la entidad portadora
             else damageToDeal = strength;
 
-            iHasHealth.TakeDamage(damageToDeal);
+            return iHasHealth.TakeDamage(damageToDeal);
         }
 
         public bool HasWeapon() => weapon != null;

@@ -8,6 +8,6 @@ namespace Semana3___Ejercicio1
 {
     public interface IDamageDealer : IHasDamage
     {
-        public void DealDamage(IHealthBeing iHasHealth);
+        public bool DealDamage(IHealthBeing iHasHealth);
     }
 }
