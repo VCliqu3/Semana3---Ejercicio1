@@ -361,7 +361,7 @@ namespace Semana3___Ejercicio1
         }
         #endregion
 
-        #region SeeStages
+        #region SeeStages&Enemies
         public void SeeStagesLogic()
         {
             Console.WriteLine("\nSe tienen los siguientes stages:");
@@ -373,13 +373,18 @@ namespace Semana3___Ejercicio1
                 stageIndex++;
                 Console.WriteLine($"\nStage {stageIndex}:");
 
-                int enemyIndex = 0;
+                SeeEnemiesInStageLogic(stage);
+            }
+        }
 
-                foreach (Enemy enemy in stage.enemies)
-                {
-                    enemyIndex++;
-                    Console.WriteLine($"{enemyIndex}.- {enemy.name}");
-                }
+        public void SeeEnemiesInStageLogic(Stage stage)
+        {
+            int enemyIndex = 0;
+
+            foreach (Enemy enemy in stage.enemies)
+            {
+                enemyIndex++;
+                Console.WriteLine($"{enemyIndex}.- {enemy.name}");
             }
         }
         #endregion
@@ -466,6 +471,7 @@ namespace Semana3___Ejercicio1
             if (!player.HasItems())
             {
                 Console.WriteLine($"\nEl jugador no cuenta con items a usar");
+                PlayerTurnLogic();
                 return;
             }
 
@@ -675,7 +681,7 @@ namespace Semana3___Ejercicio1
             foreach (Enemy enemy in currentStage.enemies)
             {
                 enemyIndex++;
-                if (enemy.IsAlive()) Console.WriteLine($"{enemyIndex}.- {enemy.name} - {enemy.health}");
+                if (enemy.IsAlive()) Console.WriteLine($"{enemyIndex}.- {enemy.name} - {enemy.health} puntos de vida");
                 else Console.WriteLine($"{enemyIndex}.- {enemy.name} - Muerto");
             }
 
@@ -719,6 +725,9 @@ namespace Semana3___Ejercicio1
 
             Console.WriteLine($"\nComienza el Stage {nextStage.number}");
             currentStage = nextStage;
+
+            Console.WriteLine($"\nLos enemigos son:");
+            SeeEnemiesInStageLogic(currentStage);
         }
         public bool CurrentStageIsLastStage() => currentStage == stageList[^1];
 
