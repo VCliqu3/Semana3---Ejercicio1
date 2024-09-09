@@ -11,6 +11,7 @@ namespace Semana3___Ejercicio1
         public int agility;
 
         private const int MAX_AGILITY = 2;
+        private const int MIN_AGILITY = 1;
 
         public AgilityPotion(string name, int agility) : base(name)
         {
@@ -27,5 +28,6 @@ namespace Semana3___Ejercicio1
         public void SetAgility(int agility) => this.agility = agility;
         public int GetAgility() => agility;
         public int GetMaxAgility() => MAX_AGILITY;
+        public int GetMinAgility() => MIN_AGILITY;
     }
 }

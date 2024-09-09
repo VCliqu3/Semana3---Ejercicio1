@@ -11,5 +11,7 @@ namespace Semana3___Ejercicio1
         public void SetAgility(int agility);
         public int GetAgility();
         public int GetMaxAgility();
+        public int GetMinAgility();
+
     }
 }

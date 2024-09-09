@@ -33,6 +33,7 @@ namespace Semana3___Ejercicio1
         public void SetHealth(int health) => this.health = health;
         public int GetHealth() => health;
         public abstract int GetMaxHealth();
+        public abstract int GetMinHealth();
         public void IncreaseHealth(int quantity)
         {
             health = health + quantity > GetMaxHealth() ? GetMaxHealth() : health + quantity;
@@ -51,6 +52,8 @@ namespace Semana3___Ejercicio1
         public void SetStrength(int strength) => this.strength = strength;
         public int GetStrength() => strength;
         public abstract int GetMaxStrength();
+        public abstract int GetMinStrength();
+
 
         public void IncreaseStrength(int quantity)
         {
@@ -61,6 +64,8 @@ namespace Semana3___Ejercicio1
 
         public int GetAgility() => agility;
         public abstract int GetMaxAgility();
+        public abstract int GetMinAgility();
+
         public void IncreaseAgility(int quantity)
         {
             agility = agility + quantity > GetMaxAgility() ? GetMaxAgility() : agility + quantity;
@@ -70,6 +75,8 @@ namespace Semana3___Ejercicio1
 
         public int GetResistance() => resistance;
         public abstract int GetMaxResistance();
+        public abstract int GetMinResistance();
+
         public void IncreaseResistance(int quantity)
         {
             resistance = resistance + quantity > GetMaxResistance() ? GetMaxResistance() : resistance + quantity;
@@ -90,6 +97,8 @@ namespace Semana3___Ejercicio1
         public void SetDamage(int damage) => strength = damage;
         public int GetDamage() => strength;
         public int GetMaxDamage() => GetMaxStrength();
+        public int GetMinDamage() => GetMinStrength();
+
         public bool DealDamage(IHealthBeing iHasHealth)
         {
             int damageToDeal;

@@ -11,6 +11,7 @@ namespace Semana3___Ejercicio1
         public int damage;
 
         private const int MAX_DAMAGE = 20;
+        private const int MIN_DAMAGE = 1;
 
         public Explosive(string name, int damage) : base(name)
         {
@@ -22,6 +23,7 @@ namespace Semana3___Ejercicio1
         public void SetDamage(int damage) => this.damage = damage;
         public int GetDamage() => damage;
         public int GetMaxDamage() => MAX_DAMAGE;
+        public int GetMinDamage() => MIN_DAMAGE;
 
 
         public bool DealDamage(IHealthBeing iHasHealth)

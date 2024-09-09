@@ -97,12 +97,12 @@ namespace Semana3___Ejercicio1
         #endregion
 
         #region SetStatPoints
-        public void SetHealthPoints(IHasHealth iHasHealth) => iHasHealth.SetHealth(InsertStatPoints("Vida", iHasHealth.GetMaxHealth()));
-        public void SetStrengthPoints(IHasStrength iHasStrength) => iHasStrength.SetStrength(InsertStatPoints("Fuerza", iHasStrength.GetMaxStrength()));
-        public void SetAgilityPoints(IHasAgility iHasAgility) => iHasAgility.SetAgility(InsertStatPoints("Agilidad", iHasAgility.GetMaxAgility()));
-        public void SetResistancePoints(IHasResistance iHasResistance) => iHasResistance.SetResistance(InsertStatPoints("Resistencia", iHasResistance.GetMaxResistance()));
-        public void SetDamagePoints(IHasDamage iHasDamage) => iHasDamage.SetDamage(InsertStatPoints("Daño", iHasDamage.GetMaxDamage())); 
-        public int InsertStatPoints(string statName, int maxStatPoints)
+        public void SetHealthPoints(IHasHealth iHasHealth) => iHasHealth.SetHealth(InsertStatPoints("Vida", iHasHealth.GetMaxHealth(),iHasHealth.GetMinHealth()));
+        public void SetStrengthPoints(IHasStrength iHasStrength) => iHasStrength.SetStrength(InsertStatPoints("Fuerza", iHasStrength.GetMaxStrength(), iHasStrength.GetMinStrength()));
+        public void SetAgilityPoints(IHasAgility iHasAgility) => iHasAgility.SetAgility(InsertStatPoints("Agilidad", iHasAgility.GetMaxAgility(),iHasAgility.GetMinAgility()));
+        public void SetResistancePoints(IHasResistance iHasResistance) => iHasResistance.SetResistance(InsertStatPoints("Resistencia", iHasResistance.GetMaxResistance(), iHasResistance.GetMinResistance()));
+        public void SetDamagePoints(IHasDamage iHasDamage) => iHasDamage.SetDamage(InsertStatPoints("Daño", iHasDamage.GetMaxDamage(), iHasDamage.GetMinDamage())); 
+        public int InsertStatPoints(string statName, int maxStatPoints, int minStatPoints)
         {
             bool validPoints = false;
             int insertedPoints = 0;
@@ -119,9 +119,9 @@ namespace Semana3___Ejercicio1
                     {
                         Console.WriteLine($"Sólo puedes ingresar un máximo de {maxStatPoints} puntos, ingresa una cantidad menor:");
                     }
-                    else if (desiredPoints < 0)
+                    else if (desiredPoints < minStatPoints)
                     {
-                        Console.WriteLine($"Ingresa una cantidad positiva:");
+                        Console.WriteLine($"Ingresa como mínimo una cantidad de {minStatPoints}:");
                     }
                     else
                     {

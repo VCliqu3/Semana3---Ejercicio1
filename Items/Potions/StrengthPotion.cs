@@ -11,6 +11,7 @@ namespace Semana3___Ejercicio1
         public int strength;
 
         private const int MAX_STRENGTH = 2;
+        private const int MIN_STRENGTH = 1;
 
         public StrengthPotion(string name, int strength) : base(name)
         {
@@ -29,6 +30,7 @@ namespace Semana3___Ejercicio1
         public int GetStrength() => strength;
 
         public int GetMaxStrength() => MAX_STRENGTH;
+        public int GetMinStrength() => MIN_STRENGTH;
 
     }
 }

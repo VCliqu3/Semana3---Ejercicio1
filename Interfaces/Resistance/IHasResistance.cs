@@ -11,5 +11,7 @@ namespace Semana3___Ejercicio1
         public void SetResistance(int resistance);
         public int GetResistance();
         public int GetMaxResistance();
+        public int GetMinResistance();
+
     }
 }

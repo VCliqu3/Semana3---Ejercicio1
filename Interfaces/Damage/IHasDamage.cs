@@ -11,5 +11,7 @@ namespace Semana3___Ejercicio1
         public void SetDamage(int damage);
         public int GetDamage();
         public int GetMaxDamage();
+        public int GetMinDamage();
+
     }
 }

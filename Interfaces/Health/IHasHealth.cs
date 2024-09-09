@@ -11,5 +11,6 @@ namespace Semana3___Ejercicio1
         public void SetHealth(int health); 
         public int GetHealth();
         public int GetMaxHealth();
+        public int GetMinHealth();
     }
 }
