@@ -14,5 +14,15 @@ namespace Semana3___Ejercicio1
             this.number = number;
             this.enemies = enemies;
         }
+
+        public bool StageEnded()
+        {
+            foreach(Enemy enemy in enemies)
+            {
+                if (enemy.IsAlive()) return false;
+            }
+
+            return true;
+        }
     }
 }

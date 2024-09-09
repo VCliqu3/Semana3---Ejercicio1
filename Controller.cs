@@ -13,18 +13,25 @@ namespace Semana3___Ejercicio1
         private List<Enemy> enemiesList = new List<Enemy>();
         private List<Stage> stageList = new List<Stage>();
 
+        private Stage currentStage;
 
         public void Execute()
         {
+            Console.WriteLine("Ahora te encuentras como Dungeon Master");
+
+            CreateEnemiesLogic();
+            CreateStagesLogic();
+            CreatePlayerLogic();
+
+            SeeStagesLogic();
+
             bool gameEnded = false;
+            currentStage = stageList[0];
 
             while (!gameEnded)
             {
-                Console.WriteLine("Ahora te encuentras como Dungeon Master");
-
-                CreateEnemiesLogic();
-                CreateStagesLogic();
-                CreatePlayerLogic();
+                PlayerTurnLogic();
+                EnemyTurnLogic();
 
                 gameEnded = true;
             }
@@ -205,7 +212,7 @@ namespace Semana3___Ejercicio1
 
         public Explosive CreateExplosive()
         {
-            Console.WriteLine("\nInserta el nombre de la granada");
+            Console.WriteLine("\nInserta el nombre del explosivo");
             string explosiveName = Console.ReadLine();
 
             Explosive explosive = new Explosive(explosiveName, 0);
@@ -331,8 +338,31 @@ namespace Semana3___Ejercicio1
         }
         #endregion
 
+        #region SeeStages
+        public void SeeStagesLogic()
+        {
+            Console.WriteLine("\nSe tienen los siguientes stages:");
 
+            int stageIndex = 1;
 
+            foreach (Stage stage in stageList)
+            {
+                Console.WriteLine($"\nStage {stageIndex}:");
+
+                int enemyIndex = 1;
+
+                foreach (Enemy enemy in stage.enemies)
+                {
+                    Console.WriteLine($"{enemyIndex}.- {enemy.name}");
+                    enemyIndex++;
+                }
+
+                stageIndex++;
+            }
+        }
+        #endregion
+
+        #region CreatePlayer
         public void CreatePlayerLogic()
         {
             Console.WriteLine("\nCreación de jugador:");
@@ -350,6 +380,20 @@ namespace Semana3___Ejercicio1
 
             player = newPlayer;
         }
+        #endregion
+
+        public void PlayerTurnLogic()
+        {
+
+        }
+
+        public void EnemyTurnLogic()
+        {
+
+        }
+
+        public bool CurrentStageIsLastStage() => currentStage == stageList[^1];
+
         #region OptionHandlers
         private int ChooseNumberOption(int maxOptionNumber)
         {
